@@ -22,7 +22,11 @@ def generate_dataset(to_lower_case=False, remove_contractions=False, remove_stop
 
     meta_df.drop(
         columns=['adult', 'belongs_to_collection', 'budget',
-                 'genres', 'homepage', 'id', 'original_language'],
+                 'genres', 'homepage', 'id', 'original_language', 
+                 'popularity','poster_path','production_companies',
+                 'production_countries','release_date','revenue',
+                 'runtime','spoken_languages','status','tagline',
+                 'video','vote_average','vote_count'],
         inplace=True)
 
     # drop registries with missing values
