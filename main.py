@@ -6,5 +6,3 @@ if __name__ == '__main__':
              remove_symbols=False, apply_lemmatization=False)
 
     analysis(data_df)
-
-
