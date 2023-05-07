@@ -11,23 +11,25 @@ nltk.download('wordnet')
 def generate_dataset(to_lower_case=False, with_contractions=False, with_stopwords=False,\
              with_symbols=False, with_lemmatization=False):
     meta_df = pd.read_csv('./dataset/movies_metadata.csv')
-    subtitles_with_time_df = pd.read_csv('./dataset/movies_subtitles.csv')
+    subtitles_with_time_df = pd.read_csv('./dataset/movies_subtitles.csv', quotechar='"')
+    # quantity of subtitles
+    print("Total of {} subtitles".format(len(subtitles_with_time_df)))
 
     # drop duplicates in meta_df
+    print("Total of {} duplicates in meta_df".format(meta_df.duplicated().sum()))
     meta_df.drop_duplicates(subset='imdb_id', keep="first", inplace=True)
-
-    # drop rows with original language different from english
-    meta_df = meta_df[meta_df['original_language'] == 'en']
 
     meta_df.drop(\
             columns=['adult', 'belongs_to_collection', 'budget', 'genres', 'homepage', 'id', 'original_language'],\
              inplace=True)
     
     # drop registries with missing values
+    print("Total of {} registries with missing values in movies metadata".format(meta_df.isnull().sum().sum()))
     meta_df.dropna(inplace=True)
+    print("Total of {} registries with missing values in movies subtitles".format(subtitles_with_time_df.isnull().sum().sum()))
     subtitles_with_time_df.dropna(inplace=True)
 
-    print("Total of {} subtitles before processing".format(subtitles_with_time_df.size))
+    print("Total of {} subtitles before processing".format(len(subtitles_with_time_df)))
 
     # remove subtitles with url
     subtitles_df = process_subtitles_that_match(subtitles_with_time_df, re.compile(r'www.'), replace=False)
@@ -59,13 +61,13 @@ def generate_dataset(to_lower_case=False, with_contractions=False, with_stopword
     merged_df['subtitles_word_count'] = merged_df['subtitles'].apply(lambda x: len(x.split()))
 
     print("Removing {} subtitles with less than 10% of the mean words in subtitles"\
-            .format(merged_df[merged_df['subtitles_word_count'] < mean_words].size))
+            .format(len(merged_df[merged_df['subtitles_word_count'] < mean_words])))
     # discard those with less than mean words
     final_df = merged_df[merged_df['subtitles_word_count'] >= mean_words]
 
 
     print("--------------------")
-    print("Total of {} movies".format(final_df.size))
+    print("Total of {} movies".format(len(final_df)))
     print(final_df.tail())
 
     if to_lower_case:
@@ -107,6 +109,5 @@ def process_subtitles_that_match(df, regex_pattern, replace=True):
     else:
         df = df[~subtitles_to_update]
 
-    print(f'Re{"plac" if replace else "mov"}ing {subtitles_to_update.count()} \
-            subtitles with regex pattern {regex_pattern}')
+    print(f'Re{"plac" if replace else "mov"}ing {subtitles_to_update.sum()} subtitles with regex pattern {regex_pattern}')
     return df
