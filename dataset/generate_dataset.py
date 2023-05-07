@@ -60,10 +60,10 @@ def generate_dataset(to_lower_case=False, with_contractions=False, with_stopword
     # create subtitles_word_count
     merged_df['subtitles_word_count'] = merged_df['subtitles'].apply(lambda x: len(x.split()))
 
-    print("Removing {} subtitles with less than 10% of the mean words in subtitles"\
-            .format(len(merged_df[merged_df['subtitles_word_count'] < mean_words])))
+    print("Removing {} movies with less than 10% of the mean words in subtitles"\
+            .format(len(merged_df[merged_df['subtitles_word_count'] < mean_words * 0.1])))
     # discard those with less than mean words
-    final_df = merged_df[merged_df['subtitles_word_count'] >= mean_words]
+    final_df = merged_df[merged_df['subtitles_word_count'] >= mean_words* 0.1]
 
 
     print("--------------------")
