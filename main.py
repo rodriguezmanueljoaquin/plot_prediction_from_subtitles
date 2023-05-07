@@ -1,5 +1,10 @@
 from dataset.generate_dataset import generate_dataset
+from analysis import analysis
 
 if __name__ == '__main__':
-    generate_dataset(to_lower_case=True, with_contractions=True, with_stopwords=True,\
-             with_symbols=True, with_lemmatization=True)
+    data_df = generate_dataset(to_lower_case=False, with_contractions=False, with_stopwords=False,\
+             with_symbols=False, with_lemmatization=False)
+
+    analysis(data_df)
+
+

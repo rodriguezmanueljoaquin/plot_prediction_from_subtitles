@@ -1,0 +1,5 @@
+pandas
+contractions
+nltk
+wordcloud
+matplotlib

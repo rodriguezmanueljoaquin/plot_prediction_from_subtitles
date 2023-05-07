@@ -97,6 +97,8 @@ def generate_dataset(to_lower_case=False, with_contractions=False, with_stopword
             .format(to_lower_case, with_contractions, with_stopwords, with_symbols, with_lemmatization))
     print(final_df.tail())
 
+    return final_df
+
 
 def process_subtitles_that_match(df, regex_pattern, replace=True):
     subtitles_to_update = df['text'].str.contains(regex_pattern, regex=True)
