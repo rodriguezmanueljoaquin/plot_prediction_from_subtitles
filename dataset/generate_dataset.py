@@ -42,7 +42,7 @@ def generate_dataset(to_lower_case=False, remove_contractions=False, remove_stop
 
     # remove subtitles with url
     subtitles_df = process_subtitles_that_match(
-        subtitles_with_time_df, re.compile(r'www.'), replace=False)
+        subtitles_with_time_df, re.compile(r'www\.'), replace=False)
 
     # remove html with regex
     subtitles_df = process_subtitles_that_match(
