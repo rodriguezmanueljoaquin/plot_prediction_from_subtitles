@@ -112,6 +112,17 @@ def generate_dataset(to_lower_case=False, remove_contractions=False, remove_stop
     final_df['subtitles_word_count'] = final_df['subtitles'].apply(
         lambda x: len(x.split()))
 
+    # save final_df to csv
+    name = 'dataset_{}_{}_{}_{}_{}.csv'.format(to_lower_case, remove_contractions, remove_stopwords, remove_symbols, apply_lemmatization)
+
+    # check if file exists
+    try:
+        pd.read_csv('./dataset/' + name)
+        print("File {} already exists".format(name))
+    except:
+        final_df.to_csv('./dataset/' + name, index=False)
+        print("File {} created".format(name))
+
     return final_df
 
 
