@@ -8,8 +8,8 @@ import nltk
 nltk.download('stopwords')
 nltk.download('wordnet')
 
-def generate_dataset(to_lower_case=False, with_contractions=False, with_stopwords=False,\
-             with_symbols=False, with_lemmatization=False):
+def generate_dataset(to_lower_case=False, remove_contractions=False, remove_stopwords=False,\
+             remove_symbols=False, apply_lemmatization=False):
     meta_df = pd.read_csv('./dataset/movies_metadata.csv')
     subtitles_with_time_df = pd.read_csv('./dataset/movies_subtitles.csv', quotechar='"')
     # quantity of subtitles
@@ -74,29 +74,29 @@ def generate_dataset(to_lower_case=False, with_contractions=False, with_stopword
         final_df.loc[:, 'subtitles'] = final_df['subtitles'].apply(lambda x: x.lower())
         print("Subtitles transformed to lower case")
 
-    if with_symbols:
+    if remove_symbols:
         final_df.loc[:, 'subtitles'] = final_df['subtitles']\
             .apply(lambda x: re.sub(r'[@#$%^&*()_+={\[}\]|:;"\',.?/\-]', ' ', x))
         print("Subtitles symbols removed")
 
-    if with_contractions:
+    if remove_contractions:
         final_df.loc[:, 'subtitles'] = final_df['subtitles']\
             .apply(lambda x: contractions.fix(x))
         print("Subtitles contractions expanded")
 
-    if with_stopwords:
+    if remove_stopwords:
         final_df.loc[:, 'subtitles'] = final_df['subtitles']\
             .apply(lambda x: ' '.join([word for word in x.split() if word not in stopwords.words('english')]))
         print("Subtitles stopwords removed")
 
-    if with_lemmatization:
+    if apply_lemmatization:
         final_df.loc[:, 'subtitles'] = final_df['subtitles']\
             .apply(lambda x: ' '.join([WordNetLemmatizer().lemmatize(word) for word in  word_tokenize(x)]))
         print("Subtitles lemmatized")
 
 
-    print("Subtitles transformed with to_lower_case={}, with_contractions={}, with_stopwords={}, with_symbols={}, with_lemmatization={}"\
-            .format(to_lower_case, with_contractions, with_stopwords, with_symbols, with_lemmatization))
+    print("Subtitles transformed with to_lower_case={}, remove_contractions={}, remove_stopwords={}, remove_symbols={}, apply_lemmatization={}"\
+            .format(to_lower_case, remove_contractions, remove_stopwords, remove_symbols, apply_lemmatization))
     print(final_df.tail())
 
     return final_df
