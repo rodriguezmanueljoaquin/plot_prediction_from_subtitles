@@ -32,7 +32,7 @@ def generate_dataset(to_lower_case=False, with_contractions=False, with_stopword
     print("Total of {} subtitles before processing".format(len(subtitles_with_time_df)))
 
     # remove subtitles with url
-    subtitles_df = process_subtitles_that_match(subtitles_with_time_df, re.compile(r'www.'), replace=False)
+    subtitles_df = process_subtitles_that_match(subtitles_with_time_df, re.compile(r'www\.'), replace=False)
 
     # remove html with regex
     subtitles_df = process_subtitles_that_match(subtitles_df, re.compile(r'<[^>]*>'), replace=True)
