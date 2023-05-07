@@ -13,6 +13,7 @@ def generate_dataset(to_lower_case=False, remove_contractions=False, remove_stop
     meta_df = pd.read_csv('./dataset/movies_metadata.csv')
     subtitles_with_time_df = pd.read_csv(
         './dataset/movies_subtitles.csv', quotechar='"')
+
     # quantity of subtitles
     print("Total of {} subtitles".format(len(subtitles_with_time_df)))
 
@@ -48,9 +49,13 @@ def generate_dataset(to_lower_case=False, remove_contractions=False, remove_stop
     subtitles_df = process_subtitles_that_match(
         subtitles_df, re.compile(r'<[^>]*>'), replace=True)
 
+    # replace \n with space in text of subtitles
+    subtitles_df = process_subtitles_that_match(
+        subtitles_df, re.compile(r'\n'), replace=True, replace_with=' ')
+
     # remove non closed captions symbols
     subtitles_df = process_subtitles_that_match(subtitles_df,
-                                                re.compile(r'[^a-zA-Z0-9!@#$%^&*()_+={\[}\]|:;"\',.?/\- ]'), replace=True)
+                                                re.compile(r'[^a-zA-Z0-9!@#$%^&*()_+={\[}\]|:;"\',.?/\-\n ]'), replace=True)
 
     # order by imdb_id, then start time
     subtitles_with_time_sorted_df = subtitles_df.sort_values(
@@ -130,11 +135,11 @@ def generate_dataset(to_lower_case=False, remove_contractions=False, remove_stop
     return final_df
 
 
-def process_subtitles_that_match(df, regex_pattern, replace=True):
+def process_subtitles_that_match(df, regex_pattern, replace=True, replace_with=''):
     subtitles_to_update = df['text'].str.contains(regex_pattern, regex=True)
     if replace:
         df.loc[subtitles_to_update, 'text'] = df['text'].str.replace(
-            regex_pattern, '', regex=True)
+            regex_pattern, replace_with, regex=True)
     else:
         df = df[~subtitles_to_update]
 
