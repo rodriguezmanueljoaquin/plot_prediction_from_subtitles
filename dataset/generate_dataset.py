@@ -7,6 +7,7 @@ from nltk import word_tokenize
 import nltk
 nltk.download('stopwords')
 nltk.download('wordnet')
+nltk.download('punkt')
 
 def generate_dataset(to_lower_case=False, remove_contractions=False, remove_stopwords=False,\
              remove_symbols=False, apply_lemmatization=False):
