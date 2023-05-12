@@ -79,18 +79,22 @@ def generate_dataset(to_lower_case=False, remove_contractions=False, remove_stop
     merged_df['subtitles_word_count'] = merged_df['subtitles'].apply(
         lambda x: len(x.split()))
 
-    print("Removing {} movies with less than 10% of the mean words in subtitles"
-          .format(len(merged_df[merged_df['subtitles_word_count'] < mean_words * 0.1])))
-    # discard those with less than mean words
-    final_df = merged_df[merged_df['subtitles_word_count'] >= mean_words * 0.1]
+    print("Removing {} movies with less than 30% of the mean words in subtitles"
+          .format(len(merged_df[merged_df['subtitles_word_count'] < mean_words * 0.3])))
+    # discard those with less than mean * 0.3 words
+    final_df = merged_df[merged_df['subtitles_word_count'] >= mean_words * 0.3]
+
+    print("Removing {} movies with more than 200% of the mean words in subtitles"
+          .format(len(merged_df[merged_df['subtitles_word_count'] > mean_words * 2])))
+    # discard those with more than mean * 2 words
+    final_df = merged_df[merged_df['subtitles_word_count'] <= mean_words * 2]
 
     print("--------------------")
     print("Total of {} movies".format(len(final_df)))
     print(final_df.tail())
 
     if to_lower_case:
-        final_df.loc[:, 'subtitles'] = final_df['subtitles'].apply(
-            lambda x: x.lower())
+        final_df.loc[:, 'subtitles'] = final_df['subtitles'].str.lower()
         print("Subtitles transformed to lower case")
 
     if remove_symbols:
@@ -104,8 +108,9 @@ def generate_dataset(to_lower_case=False, remove_contractions=False, remove_stop
         print("Subtitles contractions expanded")
 
     if remove_stopwords:
+        eng_stopwords = stopwords.words('english')
         final_df.loc[:, 'subtitles'] = final_df['subtitles']\
-            .apply(lambda x: ' '.join([word for word in x.split() if word not in stopwords.words('english')]))
+            .apply(lambda x: ' '.join([word for word in x.split() if word not in eng_stopwords]))
         print("Subtitles stopwords removed")
 
     if apply_lemmatization:
