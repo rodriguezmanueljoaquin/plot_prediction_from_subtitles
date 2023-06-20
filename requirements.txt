@@ -3,3 +3,11 @@ contractions
 nltk
 wordcloud
 matplotlib
+transformers[torch]
+ipykernel
+sentencepiece
+tensorflow
+torch
+datasets
+evaluate
+rouge_score

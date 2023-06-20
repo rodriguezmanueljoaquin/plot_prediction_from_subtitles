@@ -12,4 +12,5 @@ source venv/bin/activate
 # Install requirements
 pip install -r requirements.txt
 
+# To restore backups
 cat movies_subtitles.tar.gz.* | tar xzvf -
