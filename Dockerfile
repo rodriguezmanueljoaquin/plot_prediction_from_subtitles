@@ -8,7 +8,7 @@ COPY train.py /opt/movies/train.py
 
 WORKDIR /opt/movies
 RUN python3 -m venv venv
-RUN pip install -r /tmp/requirements.txt
+RUN pip install -r requirements.txt
 
 
 # commands to build: docker build -t movies-nlp-img .
