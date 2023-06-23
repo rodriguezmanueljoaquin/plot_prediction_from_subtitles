@@ -8,6 +8,7 @@ WORKDIR /opt/movies
 RUN python3 -m venv venv
 RUN pip install -r requirements.txt
 
+ENTRYPOINT ["sleep", "infinity"]
 
 # commands to build: docker build -t movies-nlp-img .
 # commands to start: docker run -it --name movies-nlp movies-nlp-img
