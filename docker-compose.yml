@@ -3,7 +3,10 @@ version: "3.8"
 services:
   movies-plot-prediction:
     container_name: movies-plot-prediction
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: movies-plot-prediction
     volumes:
       - ./test.py:/opt/movies/test.py
       - ./train.py:/opt/movies/train.py
