@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  movies-plot-prediction:
+    container_name: movies-plot-prediction
+    build: .
+    volumes:
+      - ./test.py:/opt/movies/test.py
+      - ./train.py:/opt/movies/train.py
+      - ./data/movies_preprocessed.csv:/opt/movies/data/movies_preprocessed.csv
+      

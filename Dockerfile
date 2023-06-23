@@ -3,8 +3,6 @@ FROM nvcr.io/nvidia/pytorch:21.08-py3
 RUN apt update
 
 COPY requirements.txt /opt/movies/requirements.txt
-COPY dataset/dataset_True_True_True_True_True.csv /opt/movies/dataset/dataset_True_True_True_True_True.csv
-COPY train.py /opt/movies/train.py
 
 WORKDIR /opt/movies
 RUN python3 -m venv venv
