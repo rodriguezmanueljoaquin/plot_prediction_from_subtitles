@@ -11,4 +11,14 @@ services:
       - ./test.py:/opt/movies/test.py
       - ./train.py:/opt/movies/train.py
       - ./data/movies_preprocessed.csv:/opt/movies/data/movies_preprocessed.csv
+    deploy:
+      resources:
+        limits:
+          cpus: "0.75"
+          memory: "8G"
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+              count: 1
       
