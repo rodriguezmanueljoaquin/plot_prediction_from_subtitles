@@ -4,25 +4,28 @@ from transformers import (
     DataCollatorForSeq2Seq,
     Seq2SeqTrainingArguments,
     Seq2SeqTrainer,
+    LongT5Model,
+    Data
 )
 import pandas as pd
 from datasets import DatasetDict, Dataset
 import evaluate
 import numpy as np
 
+generator_model_name = "google/long-t5-tglobal-large"
 df = pd.read_csv('./dataset/dataset_True_True_True_True_True.csv')
 test_split = 0.3
 
 movies = Dataset.from_pandas(df)
 
-tokenizer = AutoTokenizer.from_pretrained("t5-small")
+tokenizer = AutoTokenizer.from_pretrained(generator_model_name)
 
 def preprocess(examples):
     t5_task_prefix = "summarize: " 
     inputs = [t5_task_prefix + doc for doc in examples["subtitles"]]
-    model_inputs = tokenizer(inputs, max_length=1024, truncation=True)
+    model_inputs = tokenizer(inputs)
 
-    labels = tokenizer(text_target=examples["overview"], max_length=128, truncation=True)
+    labels = tokenizer(text_target=examples["overview"])
 
     model_inputs["labels"] = labels["input_ids"]
     return model_inputs
@@ -52,7 +55,7 @@ def compute_metrics(eval_pred):
 
     return {k: round(v, 4) for k, v in result.items()}
 
-model = AutoModelForSeq2SeqLM.from_pretrained("t5-small")
+model = LongT5Model.from_pretrained(generator_model_name)
 data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=model)
 
 training_args = Seq2SeqTrainingArguments(

@@ -79,15 +79,15 @@ def generate_dataset(to_lower_case=False, remove_contractions=False, remove_stop
     merged_df['subtitles_word_count'] = merged_df['subtitles'].apply(
         lambda x: len(x.split()))
 
-    print("Removing {} movies with less than 30% of the mean words in subtitles"
-          .format(len(merged_df[merged_df['subtitles_word_count'] < mean_words * 0.3])))
-    # discard those with less than mean * 0.3 words
-    final_df = merged_df[merged_df['subtitles_word_count'] >= mean_words * 0.3]
+    # print("Removing {} movies with less than 30% of the mean words in subtitles"
+    #       .format(len(merged_df[merged_df['subtitles_word_count'] < mean_words * 0.3])))
+    # # discard those with less than mean * 0.3 words
+    # final_df = merged_df[merged_df['subtitles_word_count'] >= mean_words * 0.3]
 
-    print("Removing {} movies with more than 200% of the mean words in subtitles"
-          .format(len(merged_df[merged_df['subtitles_word_count'] > mean_words * 2])))
+    print("Removing {} movies with more than 16000 words in subtitles"
+          .format(len(merged_df[merged_df['subtitles_word_count'] > 16000])))
     # discard those with more than mean * 2 words
-    final_df = merged_df[merged_df['subtitles_word_count'] <= mean_words * 2]
+    final_df = merged_df[merged_df['subtitles_word_count'] <= 16000]
 
     print("--------------------")
     print("Total of {} movies".format(len(final_df)))
