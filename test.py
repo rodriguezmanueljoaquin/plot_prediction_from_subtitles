@@ -9,7 +9,7 @@ model_name = "google/long-t5-tglobal-base"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = LongT5Model.from_pretrained(model_name)
 
-df = pd.read_csv('./dataset/dataset_True_True_True_True_True.csv')
+df = pd.read_csv('./data/dataset_True_True_True_True_True.csv')
 
 movies = Dataset.from_pandas(df)
 

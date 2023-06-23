@@ -13,7 +13,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 # To restore backup
-tar xzvf movies_preprocessed.tar.gz
+tar xzvf data/movies_preprocessed.tar.gz
 
 # To execute container
 docker compose build

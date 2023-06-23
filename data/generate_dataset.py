@@ -11,9 +11,9 @@ nltk.download('punkt')
 
 def generate_dataset(to_lower_case=False, remove_contractions=False, remove_stopwords=False,\
              remove_symbols=False, apply_lemmatization=False):
-    meta_df = pd.read_csv('./dataset/movies_metadata.csv')
+    meta_df = pd.read_csv('./data/original_dataset/movies_metadata.csv')
     subtitles_with_time_df = pd.read_csv(
-        './dataset/movies_subtitles.csv', quotechar='"')
+        './data/original_dataset/movies_subtitles.csv', quotechar='"')
 
     # quantity of subtitles
     print("Total of {} subtitles".format(len(subtitles_with_time_df)))
@@ -132,10 +132,10 @@ def generate_dataset(to_lower_case=False, remove_contractions=False, remove_stop
 
     # check if file exists
     try:
-        pd.read_csv('./dataset/' + name)
+        pd.read_csv('./data/' + name)
         print("File {} already exists".format(name))
     except:
-        final_df.to_csv('./dataset/' + name, index=False)
+        final_df.to_csv('./data/' + name, index=False)
         print("File {} created".format(name))
 
     return final_df
