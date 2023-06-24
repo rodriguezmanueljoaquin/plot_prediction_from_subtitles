@@ -58,6 +58,10 @@ def generate_dataset(to_lower_case=False, remove_contractions=False, remove_stop
     subtitles_df = process_subtitles_that_match(subtitles_df,
                                                 re.compile(r'[^a-zA-Z0-9!@#$%^&*()_+={\[}\]|:;"\',.?/\-\n ]'), replace=True)
 
+    # remove empty subtitles
+    subtitles_df = process_subtitles_that_match(subtitles_df,
+                                    re.compile(r'No overview found.'), replace=False)
+
     # order by imdb_id, then start time
     subtitles_with_time_sorted_df = subtitles_df.sort_values(
         by=['imdb_id', 'start_time'])
