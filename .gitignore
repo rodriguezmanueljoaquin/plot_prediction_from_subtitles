@@ -1,4 +1,4 @@
-*.csv
+data/original_dataset/*.csv
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
