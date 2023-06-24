@@ -9,7 +9,7 @@ services:
     image: movies-plot-prediction
     volumes:
       - ./code:/opt/movies/code
-      - ./data/movies_preprocessed.csv:/opt/movies/data/movies_preprocessed.csv
+      - ./data:/opt/movies/data
     deploy:
       resources:
         limits:
