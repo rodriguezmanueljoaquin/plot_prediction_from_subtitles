@@ -11,9 +11,9 @@ nltk.download('punkt')
 
 def generate_dataset(to_lower_case=False, remove_contractions=False, remove_stopwords=False,\
              remove_symbols=False, apply_lemmatization=False):
-    meta_df = pd.read_csv('./data/original_dataset/movies_metadata.csv')
+    meta_df = pd.read_csv('.original_dataset/movies_metadata.csv')
     subtitles_with_time_df = pd.read_csv(
-        './data/original_dataset/movies_subtitles.csv', quotechar='"')
+        './original_dataset/movies_subtitles.csv', quotechar='"')
 
     # quantity of subtitles
     print("Total of {} subtitles".format(len(subtitles_with_time_df)))
