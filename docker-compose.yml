@@ -8,8 +8,7 @@ services:
       dockerfile: Dockerfile
     image: movies-plot-prediction
     volumes:
-      - ./test.py:/opt/movies/test.py
-      - ./train.py:/opt/movies/train.py
+      - ./code:/opt/movies/code
       - ./data/movies_preprocessed.csv:/opt/movies/data/movies_preprocessed.csv
     deploy:
       resources:

@@ -13,7 +13,7 @@ import evaluate
 import numpy as np
 
 generator_model_name = "google/long-t5-tglobal-large"
-df = pd.read_csv('./data/dataset_True_True_True_True_True.csv')
+df = pd.read_csv('../data/dataset_True_True_True_True_True.csv')
 test_split = 0.3
 
 movies = Dataset.from_pandas(df)
@@ -90,4 +90,4 @@ trainer = Seq2SeqTrainer(
 
 trainer.train()
 
-trainer.save_model("movie-overview-predictor")
+trainer.save_model("../model-backup/movie-overview-predictor")
