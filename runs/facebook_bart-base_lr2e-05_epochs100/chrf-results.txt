@@ -1,0 +1,1 @@
+{'score': 14.465888579444137, 'char_order': 6, 'word_order': 0, 'beta': 2}
