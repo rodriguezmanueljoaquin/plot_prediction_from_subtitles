@@ -163,6 +163,8 @@ cython_debug/
 *.png
 .vscode
 
-logs/
-
 *_bak
+
+**/model
+**/train-results
+out.txt

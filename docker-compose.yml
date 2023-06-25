@@ -1,8 +1,8 @@
 version: "3.8"
 
 services:
-  movies-plot-prediction:
-    container_name: movies-plot-prediction
+  nlp-titles:
+    container_name: nlp-titles
     build: 
       context: .
       dockerfile: Dockerfile

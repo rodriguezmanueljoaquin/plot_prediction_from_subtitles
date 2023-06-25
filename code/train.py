@@ -14,6 +14,7 @@ import numpy as np
 from transformers.integrations import TensorBoardCallback
 import os
 
+
 def train(model_name, dataset_path, test_split=0.3, learning_rate=2e-5, epochs=10):
 
   generator_model_name = model_name
@@ -60,14 +61,15 @@ def train(model_name, dataset_path, test_split=0.3, learning_rate=2e-5, epochs=1
       result["gen_len"] = np.mean(prediction_lens)
       return {k: round(v, 4) for k, v in result.items()}
 
-  output_dir = f"/opt/movies/runs/{model_name}_lr{learning_rate}_epochs{epochs}"
+  model_name = model_name.replace("/", "_")
+  output_dir = f"/opt/movies/runs/{model_name}_lr{learning_rate}_epochs{50}"
 
   training_args = Seq2SeqTrainingArguments(
       output_dir=f"{output_dir}/train-results",
       evaluation_strategy="steps",
       learning_rate=learning_rate,
-      per_device_train_batch_size=48,
-      per_device_eval_batch_size=48,
+      per_device_train_batch_size=32 if model_name != "google_pegasus-large" else 16,
+      per_device_eval_batch_size=32 if model_name != "google_pegasus-large" else 16,
       weight_decay=0.01,
       save_total_limit=3,
       logging_steps=50,
@@ -79,6 +81,7 @@ def train(model_name, dataset_path, test_split=0.3, learning_rate=2e-5, epochs=1
       push_to_hub=False,
       do_eval=True,
       eval_steps=50,
+      resume_from_checkpoint=f"{output_dir}/train-results/checkpoint-3500",
   )
 
   trainer = Seq2SeqTrainer(
@@ -91,14 +94,19 @@ def train(model_name, dataset_path, test_split=0.3, learning_rate=2e-5, epochs=1
       compute_metrics=compute_metrics,
   )
 
-  trainer.train()
+  try:
+    trainer.train()
+    trainer.save_model(f"{output_dir}/model")
+  except:
+    pass
 
-  trainer.save_model(f"{output_dir}/model")
 
 if __name__ == "__main__":
-  model_name = "facebook/bart-base"#"t5-base"
+  models_names = ["google/pegasus-large"]#["t5-base", "facebook/bart-base", "google/pegasus-large"]
   dataset_path = "/opt/movies/data/dataset_True_True_True_True_True.csv"
-  test_split = 0.3
+  test_split = 0.2
   learning_rate = 2e-5
-  epochs = 2
-  train(model_name, dataset_path, test_split, learning_rate, epochs)
+  epochs = [30]#[100, 100, 50]
+
+  for model_name, epoch in zip(models_names, epochs):
+    train(model_name, dataset_path, test_split, learning_rate, epoch)

@@ -15,7 +15,7 @@ import os
 df = pd.read_csv('/opt/movies/data/dataset_True_True_True_True_True.csv')
 
 movies = Dataset.from_pandas(df)
-train_test = movies.train_test_split(shuffle = True, test_size=0.3, seed=1)
+train_test = movies.train_test_split(shuffle = True, test_size=0.2, seed=1)
 df = train_test["test"].to_pandas()
 
 def test_model(run_path, metric='rouge'):
@@ -52,4 +52,6 @@ def test_model(run_path, metric='rouge'):
 if __name__ == '__main__':
   # iterate through all files in runs folder
   for run_path in os.listdir('/opt/movies/runs'):
+    if 'google' in run_path:
+      continue
     test_model(f'/opt/movies/runs/{run_path}')
