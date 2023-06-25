@@ -10,6 +10,7 @@ services:
     volumes:
       - ./code:/opt/movies/code
       - ./data:/opt/movies/data
+      - ./runs:/opt/movies/runs
     deploy:
       resources:
         limits:
